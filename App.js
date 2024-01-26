@@ -4,7 +4,7 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import Screens from "./src/views/Screens";
+import Screens from "./src/index";
 
 const theme = {
   ...DefaultTheme,
