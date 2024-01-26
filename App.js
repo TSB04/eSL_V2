@@ -1,16 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import HomeView from './views/HomeView';
+import * as React from "react";
+import {
+  MD3LightTheme as DefaultTheme,
+  PaperProvider,
+} from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import Screens from "./src/views/Screens";
 
-export default function App() {
-  console.log("App Component Rendered");
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "tomato",
+    secondary: "yellow",
+  },
+};
 
+export default function Main() {
   return (
     <NavigationContainer>
-      {console.log("Inside NavigationContainer")}
-      <HomeView />
-      <StatusBar style="auto" />
+      <PaperProvider theme={theme}>
+        <Screens />
+      </PaperProvider>
     </NavigationContainer>
   );
 }
