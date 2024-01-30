@@ -1,9 +1,11 @@
-// HomeScreen.js
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import UserList from "../components/ListComponent";
 
+import axios from "axios";
+
 const HomeScreen = () => {
+  
   return (
     <>
       <View style={styles.container}>

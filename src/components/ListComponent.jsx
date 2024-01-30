@@ -1,23 +1,28 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { List } from "react-native-paper";
-
-const users = [
-  { prenom: "Devin" },
-  { prenom: "Dan" },
-  { prenom: "Dominic" },
-  { prenom: "Jackson" },
-  { prenom: "James" },
-  { prenom: "Joel" },
-  { prenom: "John" },
-  { prenom: "Jillian" },
-  { prenom: "Jimmy" },
-  { prenom: "Julie" },
-];
+import userservice from "../services/userservice";
 
 const UserList = () => {
-  const [expanded, setExpanded] = React.useState(true);
+  const [expanded, setExpanded] = useState(true);
+  const [users, setUsers] = useState([]);
 
   const handlePress = () => setExpanded(!expanded);
+
+  useEffect(() => {
+    // axios
+    //   .get("http://localhost:4898/user/all")
+
+    userservice
+      .getUsers()
+      .then((res) => {
+        console.log("response", res);
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <List.Section title="Accordions">
@@ -27,8 +32,8 @@ const UserList = () => {
         expanded={expanded}
         onPress={handlePress}
       >
-        {users.map((user, index) => (
-          <List.Item key={index} title={user.prenom} />
+        {users?.map((user, index) => (
+          <List.Item key={index} title={user.firstName} />
         ))}
       </List.Accordion>
     </List.Section>

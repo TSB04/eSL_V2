@@ -1,39 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Button, TextInput, Text } from "react-native-paper";
 
-const FormComponent = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-  const handleSubmit = () => {
-    onSubmit({ email, password });
-    console.log(email)
-    console.log(password)
-  };
-
-
+const FormComponent = ({ inputs, handleSubmit, onChange, submitButton }) => {
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={setEmail}
-        value={email}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-      />
-      <Button title={""} onPress={handleSubmit} />
+      {inputs?.map((input, index) => (
+        <TextInput
+          key={index}
+          style={styles.input}
+          name={input.name}
+          placeholder={input.placeholder}
+          onChangeText={(text) => onChange(input.name, text)}
+          value={input.value}
+          keyboardType={input.keyboardType}
+        />
+      ))}
+
+      <Button title={submitButton} onPress={handleSubmit}></Button>
+      <Button
+        icon="login"
+        mode="contained"
+      >
+        Login
+      </Button>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -51,4 +44,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
 });
+
 export default FormComponent;
