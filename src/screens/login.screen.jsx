@@ -1,45 +1,54 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { View, StyleSheet, Button } from "react-native";
 import FormComponent from "../components/FormComponent";
 import { useNavigation } from "@react-navigation/native";
+import { useAuthorization } from "../utilis/AuthProvider";
+import userservice from "../services/userservice";
 
 const LoginScreen = () => {
   const navigator = useNavigation();
-
-  const inputs = [
-    {
-      name: "email",
-      placeholder: "Email",
-      value: "",
-      keyboardType:"email-address"
-    },
-    {
-      name: "password",
-      placeholder: "Password",
-      value: "",
-      keyboardType:"password"
-    }
-  ]
+  const { signIn } = useAuthorization();
 
   const handlePress = () => {
-    navigator.navigate("HomeScreen");
+    navigator.navigate("SignUpScreen");
   };
 
-  const handleSubmit = (e) => {
-    console.log("es", e)
-  }
-
-  const handleChange =(e) => {
-    console.log("target", e)
-  }
+  const handleSubmit = async (data) => {
+    await userservice
+      .logIn(data)
+      .then((response) => {
+        console.log("response", response);
+        if (response.status === 201) {
+          const token = response.data.id;
+          signIn(token);
+        } else {
+          console.log("response", response);
+        }
+      })
+      .catch((error) => {
+        console.log("KO", error);
+      });
+  };
 
   return (
     <View style={styles.container}>
-      <FormComponent inputs={inputs} handleSubmit={handleSubmit} onChange={handleChange} submitButton= "Login"/>
-      <Button onPress={handlePress}>
-        <Text>Don't have an account yet ? Sign Up</Text>
-      </Button>
+      <FormComponent
+        fields={[
+          {
+            name: "email",
+            placeholder: "Email",
+          },
+          {
+            name: "password",
+            placeholder: "Password",
+            secureTextEntry: true,
+          },
+        ]}
+        onSubmit={handleSubmit}
+        submitButtonLabel="Login"
+      />
+      <Button title="Don't have an account yet? Sign Up" onPress={handlePress}/>
+        
     </View>
   );
 };
@@ -49,14 +58,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  button: {
-    marginTop: 10,
   },
 });
 

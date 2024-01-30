@@ -1,14 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import UserList from "../components/ListComponent";
+import { useAuthorization } from "../utilis/AuthProvider";
 
-import axios from "axios";
 
 const HomeScreen = () => {
+  const { signOut } = useAuthorization(); 
   
   return (
     <>
       <View style={styles.container}>
+      <Button title="Sign Out" onPress={signOut} />
         <Text style={styles.text}>Welcome to the home page!</Text>
       </View>
       <View>
