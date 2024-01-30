@@ -5,6 +5,7 @@ import {
 } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import Layout from "./src/index";
+import { AuthProvider } from "./src/utilis/AuthProvider";
 
 const theme = {
   ...DefaultTheme,
@@ -17,10 +18,12 @@ const theme = {
 
 export default function Main() {
   return (
-    <NavigationContainer>
-      <PaperProvider theme={theme}>
-        <Layout />
-      </PaperProvider>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <PaperProvider theme={theme}>
+          <Layout />
+        </PaperProvider>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
